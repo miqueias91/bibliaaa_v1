@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">523477231521-9u2r6q56c2snr1cjone8bnd782qva1dj.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://biblia-sagrada-almeida-908d3.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">523477231521</string>
+    <string name="google_api_key" translatable="false">AIzaSyDtGz_wAaXP9e4v86z7QScgPv4Ejk6NKKE</string>
+    <string name="google_app_id" translatable="false">1:523477231521:android:285814bdc097c4e98f0de0</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDtGz_wAaXP9e4v86z7QScgPv4Ejk6NKKE</string>
+    <string name="google_storage_bucket" translatable="false">biblia-sagrada-almeida-908d3.appspot.com</string>
+</resources>

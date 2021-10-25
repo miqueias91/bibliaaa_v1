@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "523477231521",
+    "firebase_url": "https://biblia-sagrada-almeida-908d3.firebaseio.com",
+    "project_id": "biblia-sagrada-almeida-908d3",
+    "storage_bucket": "biblia-sagrada-almeida-908d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523477231521:android:285814bdc097c4e98f0de0",
+        "android_client_info": {
+          "package_name": "com.phonegap.climahojemobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523477231521-9u2r6q56c2snr1cjone8bnd782qva1dj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtGz_wAaXP9e4v86z7QScgPv4Ejk6NKKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523477231521-9u2r6q56c2snr1cjone8bnd782qva1dj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7091486462236476~7559328923"
+    }
+  ],
+  "configuration_version": "1"
+}
