@@ -94,8 +94,8 @@ function maxArray(array) {
 var admobid = {}
 if (/(android)/i.test(navigator.userAgent)) {
   admobid = {
-    banner: 'ca-app-pub-7091486462236476/5015752600',
-    interstitial: 'ca-app-pub-7091486462236476/7586075629',
+    banner: config.banner,
+    interstitial: config.interstitial,
   }
 }
 window.fn = {};
@@ -121,7 +121,7 @@ if (!window.localStorage.getItem('lista-versiculos')) {
 }
 
 if (!window.localStorage.getItem('versao-biblia')) {
-  localStorage.setItem("versao-biblia", 'aa'); 
+  localStorage.setItem("versao-biblia", config.versao_biblia); 
 }
 var versaoId = window.localStorage.getItem('versao-biblia');
 
@@ -205,12 +205,12 @@ var app = {
     });
   },
   onDeviceReady: function() {    
-    this.receivedEvent('deviceready');  
+    this.receivedEvent('deviceready');
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {
-    this.carregaQuiz();
     this.init();
+    this.carregaQuiz();
     this.firebase();
     this.oneSignal();
     this.getIds();
@@ -218,40 +218,24 @@ var app = {
   init: function() {
     var timeoutID = 0;
     clearTimeout(timeoutID);
-    timeoutID = setTimeout(function() { fn.hideDialog('modal-aguarde') }, 100);
-
-    var nome = window.localStorage.getItem("nome") ? window.localStorage.getItem("nome") : '';
-    var usuario = window.localStorage.getItem("usuario") ? window.localStorage.getItem("usuario") : '';
-    var email = window.localStorage.getItem("email") ? window.localStorage.getItem("email") : '';
-    var celular = window.localStorage.getItem("celular") ? window.localStorage.getItem("celular") : '';
-    var religiao = window.localStorage.getItem("religiao") ? window.localStorage.getItem("religiao") : '';
-
-    /*if(nome == '' || usuario == '' || email == '' || celular == '' || religiao == ''){
-      ons.notification.alert(
-        'Complete suas informações para uma melhor experiência no seu aplicativo!',
-        {title: 'Atenção'}
-      );
-      fn.pushPage({'id': 'minhaConfiguracao.html', 'title': 'Minha Configuração'});
+    timeoutID = setTimeout(function() { fn.hideDialog('modal-aguarde') }, 100);   
+    if (JSON.parse(ultimo_capitulo_lido)) {
+      fn.pushPage({'id': 'textoLivro.html', 'title': ultimo_livro_lido_abr+'||'+ultimo_livro_lido+'||200||'+ultimo_capitulo_lido});
     }
-    else{*/
-      if (JSON.parse(ultimo_capitulo_lido)) {
-        fn.pushPage({'id': 'textoLivro.html', 'title': ultimo_livro_lido_abr+'||'+ultimo_livro_lido+'||200||'+ultimo_capitulo_lido});
-      }
-      else{
-        fn.pushPage({'id': 'textoLivro.html', 'title': 'Gn||Gênesis||50||1'});
-      }
-    //}
+    else{
+      fn.pushPage({'id': 'textoLivro.html', 'title': 'Gn||Gênesis||50||1'});
+    }
   },
   oneSignal: function() {
     window.plugins.OneSignal
-    .startInit("ecf7845e-b569-49e8-ab05-cc8dea377b03")   
+    .startInit(config.idonesignal)   
     .handleNotificationOpened(function(jsonData) {
-      var mensagem = JSON.parse(JSON.stringify(jsonData['notification']['payload']['additionalData']['mensagem']));
+      /*var mensagem = JSON.parse(JSON.stringify(jsonData['notification']['payload']['additionalData']['mensagem']));
       var titulo = JSON.parse(JSON.stringify(jsonData['notification']['payload']['additionalData']['titulo']));
       ons.notification.alert(
         mensagem,
         {title: titulo}
-      );
+      );*/
     })
     .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
     .endInit();
@@ -313,8 +297,8 @@ var app = {
       return false;   
     }
     return false;
-  },
-  buscaFavoritoHinario: function(hinario, id_hinario) {
+  },  
+  buscaFavorioHinario: function(hinario, id_hinario) {
     var array = JSON.parse(localStorage.getItem('lista-favorito-hinario'));
     if (array) {
       for(var k=0; k < array.length; k++) {
@@ -327,14 +311,14 @@ var app = {
     }
     return '#f5f5f5'
   },
-  incluirFavoritoHinario: function(hinario, id_hinario, titulo) {
+  incluirFavorioHinario: function(hinario, id_hinario, titulo) {
     var favorito_hinario = JSON.parse(localStorage.getItem('lista-favorito-hinario') || '[]');
     favorito_hinario.push({hinario: hinario, id_hinario: id_hinario, titulo: titulo});
     localStorage.setItem("lista-favorito-hinario", JSON.stringify(favorito_hinario));
     ons.notification.toast('Adicionado aos favoritos.', { buttonLabel: 'Ok', timeout: 1500 });
     return 'yellow';
   },
-  retirarFavoritoHinario: function(hinario, id_hinario) {
+  retirarFavorioHinario: function(hinario, id_hinario) {
     var array = JSON.parse(localStorage.getItem('lista-favorito-hinario') || '[]');
     for(var i=0; i<array.length; i++) {
       if (array[i]['hinario']) {
@@ -346,10 +330,10 @@ var app = {
     var favorito_hinario = JSON.parse(localStorage.getItem('lista-favorito-hinario') || '[]');
     localStorage.removeItem(favorito_hinario);
     localStorage.setItem("lista-favorito-hinario", JSON.stringify(array));
-    this.listaFavoritoHinario();
+    this.listaFavorioHinario();
     ons.notification.toast('Removido dos favoritos.', { buttonLabel: 'Ok', timeout: 1500 });
   },
-  listaFavoritoHinario: function() {
+  listaFavorioHinario: function() {
     var link = '';
     var descricao = '';
     var html_favoritos = '<p style="text-align: center">Nenhum favorito encontrado...</p>'
@@ -387,7 +371,7 @@ var app = {
     modo_noturno = JSON.parse(localStorage.getItem('modo-noturno'));
 
     $("#textoLivro").html('');
-    var versaoId = versaoId || "nvi";
+    var versaoId = versaoId || 'nvi';
     var selector = this;
     var texts = [];
 
@@ -601,8 +585,58 @@ var app = {
   parar: function() {
     clearTimeout(t);
   },
+  buscaVersiculo: function(versaoId,livro_capitulo_versiculo, id) {
+    $("#textoLivro").html('');
+    var versaoId = versaoId || 'nvi';
+    var selector = this;
+    var texts = [];
+    var dados0 = livro_capitulo_versiculo.split('||');
+    var livro = dados0[0];
+    var dados1 = dados0[1].split('.');
+    var capitulo = dados1[0];
+    var versiculo = dados1[1];
+    $.ajax({
+      type : "GET",
+      url : "js/"+versaoId+".json",
+      dataType : "json",
+      success : function(data){
+        $(selector).each(function(){
+          var ref = livro+""+capitulo+"."+versiculo;
+          var reg = new RegExp('([0-9]?[a-zA-Z]{2,3})([0-9]+)[\.|:]([0-9]+)-?([0-9]{1,3})?');
+          var regex = reg.exec(ref);                    
+          var myBook = null;
+          var obj_v = {
+            ref : ref,
+            book : regex[1].toLowerCase(),
+            chapter : parseInt(regex[2]),
+            text : ""
+          };
+
+          for(i in data){
+            if(data[i].abbrev == obj_v.book){
+                myBook = data[i];
+            }
+          }
+          var start = parseInt(regex[3]);
+          var end = parseInt(regex[4]) || parseInt(regex[3]);
+
+
+          for(var i = start; i <=  end; i++){
+            if (myBook.chapters[obj_v.chapter - 1][i]) {
+                obj_v.text += '<ons-list-item onclick="fn.pushPage({\'id\': \'textoLivro.html\', \'title\': \''+myBook.abbrev+'||'+myBook.name+'||'+myBook.chapters.length+'||'+(parseInt(capitulo))+'\'});">'+
+                  '<p style="font-size: 20px;line-height:30px;text-align:justify">'+
+                    myBook.chapters[obj_v.chapter - 1][i] +
+                  '</p>'+
+                  '<p style="font-size: 15px;">'+livro.toUpperCase()+' '+capitulo+':'+(parseInt(i)+1)+'</p>'+
+                '</ons-list-item>';
+            }
+          }
+          $("#"+id).append(obj_v.text);
+        });
+      }
+    });
+  },
   buscaVersiculoDia: function(livro_capitulo_versiculo, id) {
-    $("#"+id).html('Buscando...');
     var selector = this;
     var texts = [];
     var dados0 = livro_capitulo_versiculo.split('||');
@@ -644,7 +678,7 @@ var app = {
         $("#"+id).html(texto);
       }
     };
-    xmlhttp.open("GET", "js/aa.json", true);
+    xmlhttp.open("GET", "js/"+config.versao_biblia+".json", true);
     xmlhttp.send();
   },
   buscaHinario: function(id) {
@@ -800,7 +834,7 @@ var app = {
     }
   },
   pesquisaBiblia: function(term){
-    var versaoId = versaoId || "nvi";
+    var versaoId = versaoId || 'nvi';
 
     if (term != '') {
       term = term.toLowerCase();
@@ -901,7 +935,8 @@ var app = {
           'uid': uid,
           'datacadastro': this.dateTime(),
           'ultimoacesso': this.dateTime(),
-          'app': 'aa',
+          'app': config.app_,
+          'versao': config.versao,
         },
         error: function(e) {
           app.buscaDadosUsuario();
@@ -911,19 +946,6 @@ var app = {
         },
       });
     }
-  },
-  registraAcesso: function(pagina) {
-    /*if (window.localStorage.getItem('uid')) {
-      $.ajax({
-        url: "https://www.innovatesoft.com.br/webservice/app/registraAcesso.php",
-        dataType: 'json',
-        type: 'POST',
-        data: {
-          'pagina': pagina,
-          'origem': window.localStorage.getItem('uid')
-        },
-      });
-    }*/
   },
   buscaCantor: function(id) {
     var selector = this;
@@ -1087,13 +1109,14 @@ var app = {
         data: {
           'userId': playerID,
           'id_user': id_user,
-          'app': 'aa',
+          'app': config.app_,
         },
         error: function(e) {
         },
         success: function(notificacoes) {
           //localStorage.removeItem("lista-notificacoes");
           if (notificacoes) {
+            var mensagem_ = '';
             $.each(notificacoes, function (key, item) {
               var hash = item['hash'];
               var titulo = item['titulo'];
@@ -1104,7 +1127,18 @@ var app = {
               var app = item['app'];
               lista_notificacao.push({id: hash, titulo: titulo, mensagem: mensagem, lido: lido, data_notificacao: data_notificacao, link: link});
               localStorage.setItem("lista-notificacoes", JSON.stringify(lista_notificacao));
+
+              if (lido == 'nao') {
+                mensagem_ = mensagem;
+                titulo_ = titulo;
+              }
             });
+            if (mensagem_ != '') {
+              ons.notification.alert(
+                mensagem_,
+                {title: titulo_}
+              ); 
+            }
           }
         },
       });
@@ -1284,14 +1318,13 @@ var app = {
   },
   firebase: function(){
     var firebaseConfig = {
-      apiKey: "AIzaSyBayBLRc2DBNwwjG-onz5frwp-ulLZK7b0",
-      authDomain: "biblia-sagrada-almeida-908d3.firebaseapp.com",
-      databaseURL: "https://biblia-sagrada-almeida-908d3.firebaseio.com",
-      projectId: "biblia-sagrada-almeida-908d3",
-      storageBucket: "biblia-sagrada-almeida-908d3.appspot.com",
-      messagingSenderId: "523477231521",
-      appId: "1:523477231521:web:0ba38dc311f041828f0de0",
-      measurementId: "G-9M1Y16LY1C"
+      apiKey: config.apiKey,
+      authDomain: config.authDomain,
+      projectId: config.projectId,
+      storageBucket: config.storageBucket,
+      messagingSenderId: config.messagingSenderId,
+      appId: config.appId,
+      measurementId: config.measurementId
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -1300,7 +1333,7 @@ var app = {
     firebase.auth().signInAnonymously().catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
-      console.log(errorMessage)
+      console.debug(errorMessage)
     });
   },
   buscaPergunta: function(num_pergunta) {
@@ -1721,7 +1754,7 @@ var app = {
         }
       }   
     }
-  },
+  }
 };
 
 app.initialize();
