@@ -209,6 +209,7 @@ var app = {
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {
+    this.carregaPalavraDia();
     this.init();
     this.carregaQuiz();
     this.firebase();
@@ -298,7 +299,7 @@ var app = {
     }
     return false;
   },  
-  buscaFavorioHinario: function(hinario, id_hinario) {
+  buscaFavoritoHinario: function(hinario, id_hinario) {
     var array = JSON.parse(localStorage.getItem('lista-favorito-hinario'));
     if (array) {
       for(var k=0; k < array.length; k++) {
@@ -311,14 +312,14 @@ var app = {
     }
     return '#f5f5f5'
   },
-  incluirFavorioHinario: function(hinario, id_hinario, titulo) {
+  incluirFavoritoHinario: function(hinario, id_hinario, titulo) {
     var favorito_hinario = JSON.parse(localStorage.getItem('lista-favorito-hinario') || '[]');
     favorito_hinario.push({hinario: hinario, id_hinario: id_hinario, titulo: titulo});
     localStorage.setItem("lista-favorito-hinario", JSON.stringify(favorito_hinario));
     ons.notification.toast('Adicionado aos favoritos.', { buttonLabel: 'Ok', timeout: 1500 });
     return 'yellow';
   },
-  retirarFavorioHinario: function(hinario, id_hinario) {
+  retirarFavoritoHinario: function(hinario, id_hinario) {
     var array = JSON.parse(localStorage.getItem('lista-favorito-hinario') || '[]');
     for(var i=0; i<array.length; i++) {
       if (array[i]['hinario']) {
@@ -330,10 +331,10 @@ var app = {
     var favorito_hinario = JSON.parse(localStorage.getItem('lista-favorito-hinario') || '[]');
     localStorage.removeItem(favorito_hinario);
     localStorage.setItem("lista-favorito-hinario", JSON.stringify(array));
-    this.listaFavorioHinario();
+    this.listaFavoritoHinario();
     ons.notification.toast('Removido dos favoritos.', { buttonLabel: 'Ok', timeout: 1500 });
   },
-  listaFavorioHinario: function() {
+  listaFavoritoHinario: function() {
     var link = '';
     var descricao = '';
     var html_favoritos = '<p style="text-align: center">Nenhum favorito encontrado...</p>'
@@ -1754,7 +1755,23 @@ var app = {
         }
       }   
     }
-  }
+  },
+  carregaPalavraDia: function() {
+    $.ajax({
+      type : "GET",
+      url : "https://innovatesoft.com.br/webservice/app/buscaPalavraDiaAleatoria.php",
+      dataType : "json",
+      error: function(e) {
+        app.buscaVersiculoDia(versiculos_do_dia[0],"versiculo_inicio");
+      },
+      success : function(data){
+        if (data) {
+          versiculos_do_dia = '[]';
+          versiculos_do_dia = (data);
+          app.buscaVersiculoDia(versiculos_do_dia[0],"versiculo_inicio");
+        }
+      }
+    });
+  },
 };
-
 app.initialize();
