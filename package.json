@@ -1,7 +1,7 @@
 {
     "name": "com.phonegap.climahojemobile",
     "displayName": "bibliaaa",
-    "version": "1.0.26",
+    "version": "1.0.27",
     "description": "A Bíblia Sagrada Almeida Revisada Imprensa Bíblica (AA) é uma versão Revisada da Tradução de João Ferreira de Almeida de Acordo os Melhores Textos em Hebraico e Grego.",
     "main": "index.js",
     "scripts": {

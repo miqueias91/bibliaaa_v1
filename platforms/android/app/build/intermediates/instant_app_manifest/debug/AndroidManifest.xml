@@ -3,8 +3,8 @@
     package="com.phonegap.climahojemobile"
     android:hardwareAccelerated="true"
     android:targetSandboxVersion="2"
-    android:versionCode="10026"
-    android:versionName="1.0.26" >
+    android:versionCode="10027"
+    android:versionName="1.0.27" >
 
     <uses-sdk
         android:minSdkVersion="19"
