@@ -10,7 +10,7 @@
     "author": "Apache Cordova Team",
     "license": "Apache-2.0",
     "dependencies": {
-        "cordova-plugin-admob-free": "^0.27.0",
+        "admob-plus-cordova": "1.27.0",
         "cordova-plugin-console": "~1.0.3",
         "cordova-plugin-dialogs": "~1.2.1",
         "cordova-plugin-insomnia": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
@@ -27,14 +27,14 @@
             "cordova-plugin-console": {},
             "cordova-plugin-dialogs": {},
             "cordova-plugin-whitelist": {},
-            "cordova-plugin-admob-free": {
-                "ADMOB_APP_ID": "ca-app-pub-7091486462236476~7559328923"
-            },
             "cordova-plugin-x-socialsharing": {},
             "cordova-plugin-insomnia": {},
             "cordova-plugin-androidx": {},
             "cordova-plugin-androidx-adapter": {},
-            "cordova-plugin-codeplay-facebookads-free": {}
+            "cordova-plugin-codeplay-facebookads-free": {},
+            "admob-plus-cordova": {
+                "APP_ID_ANDROID": "ca-app-pub-7091486462236476~7559328923"
+            }
         }
     },
     "devDependencies": {
